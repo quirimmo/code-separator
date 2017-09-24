@@ -2,7 +2,8 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 // import * as vscode from 'vscode';
-import { window, commands, Disposable, ExtensionContext, StatusBarAlignment, StatusBarItem, TextDocument, languages, CompletionItem, Position, workspace } from 'vscode';
+import { window, commands, Disposable, ExtensionContext, StatusBarAlignment, StatusBarItem, TextDocument, languages, CompletionItem, Position, workspace, Uri } from 'vscode';
+
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -39,6 +40,20 @@ export function activate(context: ExtensionContext) {
             return completionItems;
         }
     });
+
+    // adding command
+    let sub = context.subscriptions;
+    commands.registerCommand('helloworldextension.test', testCommand);
+    function testCommand() {
+        let uri = Uri.parse('window.activeTextEditor.document.fileName');
+        commands.executeCommand('vscode.executeCompletionItemProvider', uri);
+    }
+
+    // vscode.executeCompletionItemProvider - Execute completion item provider.
+    // uri Uri of a text document
+    // position Position in a text document
+    // triggerCharacter (optional) Trigger completion when the user types the character, like , or (
+    // (returns) A promise that resolves to a CompletionList-instance.
 }
 
 // this method is called when your extension is deactivated
