@@ -2,7 +2,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 // import * as vscode from 'vscode';
-import { window, commands, Disposable, ExtensionContext, StatusBarAlignment, StatusBarItem, TextDocument, languages, CompletionItem, Position, workspace, Uri } from 'vscode';
+import { window, commands, Disposable, ExtensionContext, StatusBarAlignment, StatusBarItem, TextDocument, languages, CompletionItem, Position, workspace, Uri, TextEditor, SnippetString, InputBoxOptions } from 'vscode';
 
 
 // this method is called when your extension is activated
@@ -22,19 +22,20 @@ export function activate(context: ExtensionContext) {
     context.subscriptions.push(controller);
     context.subscriptions.push(wordCounter);
 
+    let snippet: SnippetString = new SnippetString('// = ');
+    snippet.appendVariable('bla', 'quirino');
     // The most simple completion item provider which 
     // * registers for text files (`'plaintext'`), and
     // * only return the 'Hello World' completion
     languages.registerCompletionItemProvider('plaintext', {
         provideCompletionItems(document: TextDocument, position: Position) {
-            console.log('QUIRINO');
-            console.log(workspace.getConfiguration('helloworldextension'));
+            // console.log(workspace.getConfiguration('helloworldextension'));
             var completionItems: CompletionItem[] = [];
             var completionItem: CompletionItem = new CompletionItem("id");
             completionItem.detail = "test javascript detail";
             completionItem.documentation = "mde\r\nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf";
             completionItem.filterText = "test";
-            completionItem.insertText = "// = ";
+            completionItem.insertText = snippet;
             completionItem.label = "test";
             completionItems.push(completionItem);
             return completionItems;
@@ -45,15 +46,14 @@ export function activate(context: ExtensionContext) {
     let sub = context.subscriptions;
     commands.registerCommand('helloworldextension.test', testCommand);
     function testCommand() {
-        let uri = Uri.parse('window.activeTextEditor.document.fileName');
-        commands.executeCommand('vscode.executeCompletionItemProvider', uri);
+        window.showInputBox({
+            prompt: "Label: ",
+            placeHolder: "(placeholder)"
+        }).then(value => {
+            console.log(value);
+            window.activeTextEditor.insertSnippet(snippet);
+        });
     }
-
-    // vscode.executeCompletionItemProvider - Execute completion item provider.
-    // uri Uri of a text document
-    // position Position in a text document
-    // triggerCharacter (optional) Trigger completion when the user types the character, like , or (
-    // (returns) A promise that resolves to a CompletionList-instance.
 }
 
 // this method is called when your extension is deactivated
