@@ -10,55 +10,81 @@ import { window, commands, Disposable, ExtensionContext, StatusBarAlignment, Sta
 // export function activate(context: vscode.ExtensionContext) {
 export function activate(context: ExtensionContext) {
 
-    // Use the console to output diagnostic information (console.log) and errors (console.error).
-    // This line of code will only be executed once when your extension is activated.
-    console.log('Congratulations, your extension "WordCount" is now active!');
+    let codeSeparator = new CodeSeparatorController();
 
-    // create a new word counter
-    let wordCounter = new WordCounter();
-    let controller = new WordCounterController(wordCounter);
+    // // Use the console to output diagnostic information (console.log) and errors (console.error).
+    // // This line of code will only be executed once when your extension is activated.
+    // console.log('Congratulations, your extension "WordCount" is now active!');
 
-    // Add to a list of disposables which are disposed when this extension is deactivated.
-    context.subscriptions.push(controller);
-    context.subscriptions.push(wordCounter);
+    // // create a new word counter
+    // let wordCounter = new WordCounter();
+    // let controller = new WordCounterController(wordCounter);
 
-    let snippet: SnippetString = new SnippetString('// = ');
-    snippet.appendVariable('bla', 'quirino');
-    // The most simple completion item provider which 
-    // * registers for text files (`'plaintext'`), and
-    // * only return the 'Hello World' completion
-    languages.registerCompletionItemProvider('plaintext', {
-        provideCompletionItems(document: TextDocument, position: Position) {
-            // console.log(workspace.getConfiguration('helloworldextension'));
-            var completionItems: CompletionItem[] = [];
-            var completionItem: CompletionItem = new CompletionItem("id");
-            completionItem.detail = "test javascript detail";
-            completionItem.documentation = "mde\r\nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf";
-            completionItem.filterText = "test";
-            completionItem.insertText = snippet;
-            completionItem.label = "test";
-            completionItems.push(completionItem);
-            return completionItems;
-        }
-    });
+    // // Add to a list of disposables which are disposed when this extension is deactivated.
+    // context.subscriptions.push(controller);
+    // context.subscriptions.push(wordCounter);
 
-    // adding command
-    let sub = context.subscriptions;
-    commands.registerCommand('helloworldextension.test', testCommand);
-    function testCommand() {
-        window.showInputBox({
-            prompt: "Label: ",
-            placeHolder: "(placeholder)"
-        }).then(value => {
-            console.log(value);
-            window.activeTextEditor.insertSnippet(snippet);
-        });
-    }
+    // let snippet: SnippetString = new SnippetString('// = ');
+    // snippet.appendVariable('bla', 'quirino');
+    // // The most simple completion item provider which 
+    // // * registers for text files (`'plaintext'`), and
+    // // * only return the 'Hello World' completion
+    // languages.registerCompletionItemProvider('*', {
+    //     provideCompletionItems(document: TextDocument, position: Position) {
+    //         // console.log(workspace.getConfiguration('helloworldextension'));
+    //         var completionItems: CompletionItem[] = [];
+    //         var completionItem: CompletionItem = new CompletionItem("id");
+    //         completionItem.detail = "test javascript detail";
+    //         completionItem.documentation = "mde\r\nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf";
+    //         completionItem.filterText = "test";
+    //         completionItem.insertText = snippet;
+    //         completionItem.label = "test";
+    //         completionItems.push(completionItem);
+    //         return completionItems;
+    //     }
+    // });
+
+    // // adding command
+    // let sub = context.subscriptions;
+    // commands.registerCommand('helloworldextension.test', testCommand);
+    // function testCommand() {
+    //     window.showInputBox({
+    //         prompt: "Label: ",
+    //         placeHolder: "(placeholder)"
+    //     }).then(value => {
+    //         console.log(value);
+    //         window.activeTextEditor.insertSnippet(snippet);
+    //     });
+    // }
 }
 
 // this method is called when your extension is deactivated
 export function deactivate() {
 }
+
+export class CodeSeparatorController {
+    
+    private _disposable: Disposable;
+
+    constructor() {
+        // subscribe to selection change and editor activation events
+        let subscriptions: Disposable[] = [];
+        // create a combined disposable from both event subscriptions
+        this._disposable = Disposable.from(...subscriptions);
+    }
+
+    public dispose() {
+        this._disposable.dispose();
+    }
+
+    private _onEvent() {
+        // this._wordCounter.updateWordCount();
+    }
+}
+
+
+
+
 
 export class WordCounter {
 
