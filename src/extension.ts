@@ -1,7 +1,5 @@
 'use strict';
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-// import * as vscode from 'vscode';
+
 import {
 	window,
 	commands,
@@ -22,11 +20,9 @@ import {
 
 // this method is called when your extension is activated, so the very first time the command is executed
 export function activate(context: ExtensionContext) {
-	// let codeSeparator = new CodeSeparatorController();
-
-	// Use the console to output diagnostic information (console.log) and errors (console.error).
-	// This line of code will only be executed once when your extension is activated.
 	console.log('Congratulations, your extension "WordCount" is now active!');
+
+	let codeSeparator = new CodeSeparatorController();
 
 	// // // create a new word counter
 	// let wordCounter = new WordCounter();
@@ -36,42 +32,39 @@ export function activate(context: ExtensionContext) {
 	// context.subscriptions.push(controller);
 	// context.subscriptions.push(wordCounter);
 
-	let snippet: SnippetString = new SnippetString('// = ');
-	snippet.appendVariable('bla', 'quirino');
-	// The most simple completion item provider which
-	// * registers for text files (`'plaintext'`), and
-	// * only return the 'Hello World' completion
-	languages.registerCompletionItemProvider('*', {
-		provideCompletionItems(document: TextDocument, position: Position) {
-            console.log('loading configuration')
-			console.log(workspace.getConfiguration('helloworldextension'));
-			var completionItems: CompletionItem[] = [];
-			var completionItem: CompletionItem = new CompletionItem('id');
-			completionItem.detail = 'test javascript detail';
-			completionItem.documentation = 'mde\r\nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf';
-			completionItem.filterText = 'test';
-			completionItem.insertText = snippet;
-			completionItem.label = 'test';
-			completionItems.push(completionItem);
-			return completionItems;
-		}
-	});
+	// let snippet: SnippetString = new SnippetString('// = ');
+	// snippet.appendVariable('bla', 'quirino');
+	// console.dir(window.activeTextEditor.document.languageId);
+
+	// languages.registerCompletionItemProvider('*', {
+	// 	provideCompletionItems(document: TextDocument, position: Position) {
+	// 		console.dir(workspace.getConfiguration('helloworldextension'));
+	// 		var completionItems: CompletionItem[] = [];
+	// 		var completionItem: CompletionItem = new CompletionItem('id');
+	// 		completionItem.detail = 'test javascript detail';
+	// 		completionItem.documentation = 'mde\r\nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf';
+	// 		completionItem.filterText = 'test';
+	// 		completionItem.insertText = snippet;
+	// 		completionItem.label = 'test';
+	// 		completionItems.push(completionItem);
+	// 		return completionItems;
+	// 	}
+	// });
 
 	// adding command
-	let sub = context.subscriptions;
-	commands.registerCommand('codeseparator.codeseparator', testCommand);
-	function testCommand() {
-        window.activeTextEditor.insertSnippet(snippet);
-		// window
-		// 	.showInputBox({
-		// 		prompt: 'Label: ',
-		// 		placeHolder: '(placeholder)'
-		// 	})
-		// 	.then(value => {
-		// 		console.log(value);
-		// 		window.activeTextEditor.insertSnippet(snippet);
-		// 	});
-	}
+	// commands.registerCommand('codeseparator.codeseparator', testCommand);
+	// function testCommand() {
+	// 	window.activeTextEditor.insertSnippet(snippet);
+	// 	// window
+	// 	// 	.showInputBox({
+	// 	// 		prompt: 'Label: ',
+	// 	// 		placeHolder: '(placeholder)'
+	// 	// 	})
+	// 	// 	.then(value => {
+	// 	// 		console.log(value);
+	// 	// 		window.activeTextEditor.insertSnippet(snippet);
+	// 	// 	});
+	// }
 }
 
 // this method is called when your extension is deactivated
@@ -83,6 +76,27 @@ export class CodeSeparatorController {
 	constructor() {
 		// subscribe to selection change and editor activation events
 		let subscriptions: Disposable[] = [];
+
+		let snippet: SnippetString = new SnippetString('// = ');
+		snippet.appendVariable('bla', 'quirino');
+		languages.registerCompletionItemProvider('*', {
+			provideCompletionItems(document: TextDocument, position: Position) {
+				console.dir(workspace.getConfiguration('helloworldextension'));
+				var completionItems: CompletionItem[] = [];
+				var completionItem: CompletionItem = new CompletionItem('id');
+				completionItem.detail = 'test javascript detail';
+				completionItem.documentation = 'mde\r\nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf';
+				completionItem.filterText = 'test';
+				completionItem.insertText = snippet;
+				completionItem.label = 'test';
+				completionItems.push(completionItem);
+				return completionItems;
+			}
+		});
+		commands.registerCommand('codeseparator.codeseparator', testCommand);
+		function testCommand() {
+			window.activeTextEditor.insertSnippet(snippet);
+		}
 		// create a combined disposable from both event subscriptions
 		this._disposable = Disposable.from(...subscriptions);
 	}
