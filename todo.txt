@@ -1,7 +1,8 @@
-Refactor all the code using classes and separated files
-Add automatic detection of the current file extension
-Add comment in the current file language
-Add configuration for the separator in several languages
 Add unit tests
+Clean all
+Write documentation
+Clean all
 Deploy
+Clean all
 Publish
+Clean all
