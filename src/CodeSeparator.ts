@@ -1,34 +1,30 @@
 'use strict';
 
-import { SnippetString, CompletionItem, window } from 'vscode';
+import { SnippetString, CompletionItem, window, commands, workspace } from 'vscode';
 
 export class CodeSeparator {
-	private snippet: SnippetString;
+	constructor() {}
 
-	constructor() {
-		this._setupSnippet();
+	public executeCommand(): void {
+		let self = this;
+
+		commands.executeCommand('editor.action.commentLine').then(onSuccess, onError);
+		function onSuccess() {
+			window.activeTextEditor.insertSnippet(self._getSnippet());
+		}
+
+		function onError(err) {
+			console.error(err);
+		}
 	}
 
-	public getCompletionItem(): CompletionItem {
-		let completionItem: CompletionItem = new CompletionItem('id');
-		completionItem.detail = 'test javascript detail';
-		completionItem.documentation = 'mde\r\nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf';
-		completionItem.filterText = 'test';
-		completionItem.insertText = this.snippet;
-		completionItem.label = 'test';
-		return completionItem;
-	}
-
-	public getSnippet() {
-		return this.snippet;
-	}
-
-	public registerCommand() {
-		window.activeTextEditor.insertSnippet(this.snippet);
-	}
-
-	private _setupSnippet() {
-		this.snippet = new SnippetString('// = ');
-		this.snippet.appendVariable('bla', 'quirino');
+	private _getSnippet() {
+		const SEPARATOR_LENGTH = workspace.getConfiguration('codeseparator').get('separatorLength');
+		const SEPARATOR_CHAR = workspace.getConfiguration('codeseparator').get('separatorChar');
+		let str = '';
+		for (let i = 0; i < SEPARATOR_LENGTH; i++) {
+			str += SEPARATOR_CHAR;
+		}
+		return new SnippetString(str);
 	}
 }

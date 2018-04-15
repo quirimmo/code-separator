@@ -21,16 +21,21 @@
 			"type": "object",
 			"title": "Code Separator Configuration",
 			"properties": {
-				"codeseparator.comment": {
+				"separatorChar": {
 					"type": "string",
 					"default": "//",
-					"description": "Characters used in order to put a one line comment"
+					"description": "Character used in order to put the code separator"
+				},
+				"separatorLength": {
+					"type": "number",
+					"default": 30,
+					"description": "The number of character used for the code separator"
 				}
 			}
 		},
 		"keybindings": [
 			{
-        "command": "codeseparator.codeseparator",
+				"command": "codeseparator.codeseparator",
 				"key": "ctrl+alt+q",
 				"mac": "cmd+alt+q",
 				"when": "editorTextFocus"
