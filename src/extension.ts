@@ -20,83 +20,25 @@ import {
 
 // this method is called when your extension is activated, so the very first time the command is executed
 export function activate(context: ExtensionContext) {
-	console.log('Congratulations, your extension "WordCount" is now active!');
-
-	let codeSeparator = new CodeSeparatorController();
-
-	// // // create a new word counter
-	// let wordCounter = new WordCounter();
-	// let controller = new WordCounterController(wordCounter);
-
-	// Add to a list of disposables which are disposed when this extension is deactivated.
-	// context.subscriptions.push(controller);
-	// context.subscriptions.push(wordCounter);
-
-	// let snippet: SnippetString = new SnippetString('// = ');
-	// snippet.appendVariable('bla', 'quirino');
-	// console.dir(window.activeTextEditor.document.languageId);
-
-	// languages.registerCompletionItemProvider('*', {
-	// 	provideCompletionItems(document: TextDocument, position: Position) {
-	// 		console.dir(workspace.getConfiguration('helloworldextension'));
-	// 		var completionItems: CompletionItem[] = [];
-	// 		var completionItem: CompletionItem = new CompletionItem('id');
-	// 		completionItem.detail = 'test javascript detail';
-	// 		completionItem.documentation = 'mde\r\nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf';
-	// 		completionItem.filterText = 'test';
-	// 		completionItem.insertText = snippet;
-	// 		completionItem.label = 'test';
-	// 		completionItems.push(completionItem);
-	// 		return completionItems;
-	// 	}
-	// });
-
-	// adding command
-	// commands.registerCommand('codeseparator.codeseparator', testCommand);
-	// function testCommand() {
-	// 	window.activeTextEditor.insertSnippet(snippet);
-	// 	// window
-	// 	// 	.showInputBox({
-	// 	// 		prompt: 'Label: ',
-	// 	// 		placeHolder: '(placeholder)'
-	// 	// 	})
-	// 	// 	.then(value => {
-	// 	// 		console.log(value);
-	// 	// 		window.activeTextEditor.insertSnippet(snippet);
-	// 	// 	});
-	// }
+	let codeSeparatorController = new CodeSeparatorController(new CodeSeparator());
+	context.subscriptions.push(codeSeparatorController);
 }
 
 // this method is called when your extension is deactivated
 export function deactivate() {}
 
 export class CodeSeparatorController {
+	private codeSeparator: CodeSeparator;
 	private _disposable: Disposable;
 
-	constructor() {
+	constructor(codeSeparator: CodeSeparator) {
+		this.codeSeparator = codeSeparator;
 		// subscribe to selection change and editor activation events
 		let subscriptions: Disposable[] = [];
 
-		let snippet: SnippetString = new SnippetString('// = ');
-		snippet.appendVariable('bla', 'quirino');
-		languages.registerCompletionItemProvider('*', {
-			provideCompletionItems(document: TextDocument, position: Position) {
-				console.dir(workspace.getConfiguration('helloworldextension'));
-				var completionItems: CompletionItem[] = [];
-				var completionItem: CompletionItem = new CompletionItem('id');
-				completionItem.detail = 'test javascript detail';
-				completionItem.documentation = 'mde\r\nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf';
-				completionItem.filterText = 'test';
-				completionItem.insertText = snippet;
-				completionItem.label = 'test';
-				completionItems.push(completionItem);
-				return completionItems;
-			}
-		});
-		commands.registerCommand('codeseparator.codeseparator', testCommand);
-		function testCommand() {
-			window.activeTextEditor.insertSnippet(snippet);
-		}
+		this._registerCompletion();
+		this._registerCommand();
+
 		// create a combined disposable from both event subscriptions
 		this._disposable = Disposable.from(...subscriptions);
 	}
@@ -105,8 +47,54 @@ export class CodeSeparatorController {
 		this._disposable.dispose();
 	}
 
-	private _onEvent() {
-		// this._wordCounter.updateWordCount();
+	private _registerCompletion() {
+		let self = this;
+		languages.registerCompletionItemProvider('*', {
+			provideCompletionItems: onProvideCompletionItems
+		});
+
+		function onProvideCompletionItems(document: TextDocument, position: Position) {
+			console.dir(workspace.getConfiguration('helloworldextension'));
+			var completionItems: CompletionItem[] = [self.codeSeparator.getCompletionItem()];
+			return completionItems;
+		}
+	}
+
+	private _registerCommand() {
+		commands.registerCommand('codeseparator.codeseparator', () => {
+			this.codeSeparator.registerCommand();
+		});
+	}
+}
+
+export class CodeSeparator {
+	private snippet: SnippetString;
+
+	constructor() {
+		this._setupSnippet();
+	}
+
+	public getCompletionItem(): CompletionItem {
+		let completionItem: CompletionItem = new CompletionItem('id');
+		completionItem.detail = 'test javascript detail';
+		completionItem.documentation = 'mde\r\nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf nadfdsf';
+		completionItem.filterText = 'test';
+		completionItem.insertText = this.snippet;
+		completionItem.label = 'test';
+		return completionItem;
+	}
+
+	public getSnippet() {
+		return this.snippet;
+	}
+
+	public registerCommand() {
+		window.activeTextEditor.insertSnippet(this.snippet);
+	}
+
+	private _setupSnippet() {
+		this.snippet = new SnippetString('// = ');
+		this.snippet.appendVariable('bla', 'quirino');
 	}
 }
 
