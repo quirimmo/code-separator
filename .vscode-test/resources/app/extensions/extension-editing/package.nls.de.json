@@ -1,4 +1,0 @@
-{
-	"displayName": "Paketbearbeitung",
-	"description": "Bietet Intellisense für VS Code-Erweiterungspunkte und Bereinigungsfunktionen in Dateien vom Typ \"package.json\"."
-}
