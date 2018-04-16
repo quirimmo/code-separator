@@ -1,4 +1,4 @@
-# helloworldextension README
+# code-separator extension README
 
 This is the README for your extension "helloworldextension". After writing up a brief description, we recommend including the following sections.
 

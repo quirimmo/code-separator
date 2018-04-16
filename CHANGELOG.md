@@ -1,7 +1,7 @@
 # Change Log
-All notable changes to the "helloworldextension" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+List of changes to the code separator extension will be documented in this file.
 
-## [Unreleased]
-- Initial release
+## [1.0.0] - 2018-04-16
+
+- Published first release of the extension
