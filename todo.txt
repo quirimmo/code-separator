@@ -1,8 +1,2 @@
-Add unit tests
-Clean all
-Write documentation
-Clean all
-Deploy
-Clean all
 Publish
 Clean all
