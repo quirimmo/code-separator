@@ -1,0 +1,7 @@
+{
+	"description": "Разрешение для добавления возможностей Gulp в VSCode.",
+	"displayName": "Поддержка Gulp для VSCode",
+	"config.gulp.autoDetect": "Включает или отключает автоматическое определение заданий Gulp. Значение по умолчанию — \"включено\".",
+	"gulp.taskDefinition.type.description": "Задача Gulp для изменения.",
+	"gulp.taskDefinition.file.description": "Файл Gulp, в котором находится задача. Можно опустить."
+}

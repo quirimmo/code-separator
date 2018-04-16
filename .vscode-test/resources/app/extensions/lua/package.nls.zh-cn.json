@@ -1,0 +1,4 @@
+{
+	"displayName": "Lua 语言基础功能",
+	"description": "在 Lua 文件中提供语法高亮和括号匹配功能。"
+}

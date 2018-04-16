@@ -1,0 +1,4 @@
+{
+	"displayName": "Modifica dei file del pacchetto",
+	"description": "Offre IntelliSense per i punti di estensione VS Code e le funzionalità di linting nei file package.json."
+}

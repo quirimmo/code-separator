@@ -1,0 +1,4 @@
+{
+	"displayName": "Package 文件编辑",
+	"description": "为 VS Code 扩展点提供 IntelliSense，并为 package.json 文件提供 linting 功能。"
+}

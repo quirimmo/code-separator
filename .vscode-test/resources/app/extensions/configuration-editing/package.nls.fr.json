@@ -1,0 +1,4 @@
+{
+	"displayName": "Configuration de l'édition",
+	"description": "Fournit des fonctionnalités (IntelliSense avancé, correction automatique) dans les fichiers de configuration comme les fichiers de paramètres, de lancement et de recommandation d'extension."
+}

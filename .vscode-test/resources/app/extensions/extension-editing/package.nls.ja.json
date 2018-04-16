@@ -1,0 +1,4 @@
+{
+	"displayName": "パッケージ ファイルの編集機能",
+	"description": "VS Code の拡張ポイント向けの IntelliSense と、package.json ファイルでのリンティング機能を提供します。"
+}
