@@ -1,7 +1,7 @@
 'use strict';
 
 import { Disposable, languages, TextDocument, Position, CompletionItem, commands } from 'vscode';
-import { CodeSeparator } from './CodeSeparator';
+import CodeSeparator  from './CodeSeparator';
 
 export class CodeSeparatorController {
 	private codeSeparator: CodeSeparator;

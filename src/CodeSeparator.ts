@@ -2,7 +2,7 @@
 
 import { SnippetString, CompletionItem, window, commands, workspace } from 'vscode';
 
-export class CodeSeparator {
+export default class CodeSeparator {
 	constructor() {}
 
 	public executeCommand(): void {
